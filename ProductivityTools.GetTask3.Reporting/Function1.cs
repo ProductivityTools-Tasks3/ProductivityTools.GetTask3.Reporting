@@ -18,9 +18,9 @@ namespace ProductivityTools.GetTask3.Reporting
 
         }
 
-          
 
-        [FunctionName("Function4")]
+
+        [FunctionName("HttpTrigger")]
         public static async Task<IActionResult> Run2(
             [HttpTrigger(AuthorizationLevel.Function, "get", "post", Route = null)] HttpRequest req,
             ILogger log)
@@ -31,11 +31,26 @@ namespace ProductivityTools.GetTask3.Reporting
 
         }
 
+        private static string FindClosed(string path, Contract.ElementView element)
+        {
+            if (element.Finished.HasValue && element.Finished.Value > DateTime.Now.AddDays(-1))
+            {
+                return string.Concat(path, element.Name) + Environment.NewLine;
+            }
+            var r = string.Empty;
+            foreach (var item in element.Elements)
+            {
+                r += FindClosed(element.Name, item);
+            }
+            return r;
+        }
+
         private static async Task Work(ILogger log)
         {
             log.LogInformation($"C# Timer trigger function executed at: {DateTime.Now}");
             Action<string> lg = (s) => log.LogInformation(s);
             var rootElement = await ProductivityTools.GetTask3.Sdk.TaskClient.GetStructure(null, string.Empty, lg);
+            string resut = FindClosed(rootElement.Name, rootElement);
         }
 
     }
