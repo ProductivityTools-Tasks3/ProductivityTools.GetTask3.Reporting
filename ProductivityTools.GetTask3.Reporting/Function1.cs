@@ -5,7 +5,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.Azure.WebJobs.Host;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using ProductivityTools.MasterConfiguration;
 
 namespace ProductivityTools.GetTask3.Reporting
 {
@@ -14,7 +16,7 @@ namespace ProductivityTools.GetTask3.Reporting
         [FunctionName("Function1")]
         public static async Task Run([TimerTrigger("0 */5 * * * *")] TimerInfo myTimer, ILogger log)
         {
-            await Work(log);
+            await GetClosed(log);
 
         }
 
@@ -25,8 +27,8 @@ namespace ProductivityTools.GetTask3.Reporting
             [HttpTrigger(AuthorizationLevel.Function, "get", "post", Route = null)] HttpRequest req,
             ILogger log)
         {
-            await Work(log);
-
+            string s=await GetClosed(log);
+            await SendEmail(s);
             return new OkObjectResult("Fda");
 
         }
@@ -45,12 +47,23 @@ namespace ProductivityTools.GetTask3.Reporting
             return r;
         }
 
-        private static async Task Work(ILogger log)
+
+        private static async Task<string> GetClosed(ILogger log)
         {
             log.LogInformation($"C# Timer trigger function executed at: {DateTime.Now}");
             Action<string> lg = (s) => log.LogInformation(s);
             var rootElement = await ProductivityTools.GetTask3.Sdk.TaskClient.GetStructure(null, string.Empty, lg);
-            string resut = FindClosed(rootElement.Name, rootElement);
+            string result = FindClosed(rootElement.Name, rootElement);
+            return result;
+        }
+
+        private static async Task SendEmail(string body)
+        {
+            IConfigurationRoot configuration = new ConfigurationBuilder()
+.AddMasterConfiguration()
+.Build();
+            string password = configuration["GmailPassword"];
+            SentEmailGmail.Gmail.Send("productivitytools.tech@gmail.com", configuration["GmailPassword"], "pwujczyk@hotmail.com", "DNSModddnitor", body);
         }
 
     }
