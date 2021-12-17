@@ -7,7 +7,7 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.NET.Sdk.Functions" Version="3.0.11">
     </PackageReference>
-    <PackageReference Include="ProductivityTools.GetTask3.Sdk" Version="0.0.6" />
+    <PackageReference Include="ProductivityTools.GetTask3.Sdk" Version="0.0.7" />
     <PackageReference Include="ProductivityTools.SentEmailGmail" Version="1.0.0" />
     <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.14.1">
     </PackageReference>

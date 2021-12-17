@@ -50,7 +50,7 @@ namespace ProductivityTools.GetTask3.Reporting
         {
             if (element.Finished.HasValue && element.Finished.Value > DateTime.Now.AddDays(-1))
             {
-                return string.Concat(path, element.Name) + Environment.NewLine;
+                return string.Concat(path,"\\", element.Name) + Environment.NewLine;
             }
             var r = string.Empty;
             foreach (var item in element.Elements)
@@ -65,7 +65,7 @@ namespace ProductivityTools.GetTask3.Reporting
         {
             log.LogInformation($"C# Timer trigger function executed at: {DateTime.Now}");
             Action<string> lg = (s) => log.LogInformation(s);
-            var rootElement = await new ProductivityTools.GetTask3.Sdk.TaskClient(URL).GetStructure(null, string.Empty, lg);
+            var rootElement = await new ProductivityTools.GetTask3.Sdk.TaskClient(URL,lg).GetStructure(null, string.Empty);
             string result = FindClosed(rootElement.Name, rootElement);
             return result;
         }
