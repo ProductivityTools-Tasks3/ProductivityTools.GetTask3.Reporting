@@ -24,7 +24,7 @@ namespace ProductivityTools.GetTask3.Reporting
 
         [FunctionName("HttpTrigger")]
         public static async Task<IActionResult> Run2(
-            [HttpTrigger(AuthorizationLevel.Function, "get", "post", Route = null)] HttpRequest req,
+            [HttpTrigger(AuthorizationLevel.Anonymous, "get", "post", Route = null)] HttpRequest req,
             ILogger log)
         {
             string s=await GetClosed(log);
@@ -35,7 +35,7 @@ namespace ProductivityTools.GetTask3.Reporting
 
         [FunctionName("GetDateTime")]
         public static string GetDateTime(
-          [HttpTrigger(AuthorizationLevel.Function, "get", "post", Route = null)] HttpRequest req,
+          [HttpTrigger(AuthorizationLevel.Anonymous, "get", "post", Route = null)] HttpRequest req,
           ILogger log)
         {
             return DateTime.Now.ToString();
