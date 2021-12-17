@@ -33,6 +33,15 @@ namespace ProductivityTools.GetTask3.Reporting
 
         }
 
+        [FunctionName("GetDateTime")]
+        public static string GetDateTime(
+          [HttpTrigger(AuthorizationLevel.Function, "get", "post", Route = null)] HttpRequest req,
+          ILogger log)
+        {
+            return DateTime.Now.ToString();
+
+        }
+
         private static string FindClosed(string path, Contract.ElementView element)
         {
             if (element.Finished.HasValue && element.Finished.Value > DateTime.Now.AddDays(-1))
@@ -60,8 +69,8 @@ namespace ProductivityTools.GetTask3.Reporting
         private static async Task SendEmail(string body)
         {
             IConfigurationRoot configuration = new ConfigurationBuilder()
-.AddMasterConfiguration()
-.Build();
+            .AddMasterConfiguration()
+            .Build();
             string password = configuration["GmailPassword"];
             SentEmailGmail.Gmail.Send("productivitytools.tech@gmail.com", configuration["GmailPassword"], "pwujczyk@hotmail.com", "DNSModddnitor", body);
         }
