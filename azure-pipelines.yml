@@ -34,9 +34,10 @@ steps:
 - task: AzureFunctionApp@1  # Add this at the end of your file
   inputs:
     azureSubscription: Task3Connection
-    appType: functionAppLinux # default is functionApp
+    appType: functionApp # default is functionApp
     appName: $(appName)
     package: $(System.ArtifactsDirectory)/**/*.zip
+    DisplayName: Deploy Azure Function
     #Uncomment the next lines to deploy to a deployment slot
     #Note that deployment slots is not supported for Linux Dynamic SKU
     #deployToSlotOrASE: true
