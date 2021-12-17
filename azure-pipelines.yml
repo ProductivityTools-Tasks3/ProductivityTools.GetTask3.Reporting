@@ -13,8 +13,6 @@ variables:
   solution: '**/*.sln'
   buildPlatform: 'Any CPU'
   buildConfiguration: 'Release'
-  appName: ProductivityToolsGetTask3
-
 
 steps:
 - task: NuGetToolInstaller@1
@@ -34,8 +32,8 @@ steps:
 - task: AzureFunctionApp@1  # Add this at the end of your file
   inputs:
     azureSubscription: Task3Connection
-    appType: functionApp # default is functionApp
-    appName: $(appName)
+    appType: functionAppLinux # default is functionApp
+    appName: ProductivityToolsGetTask3
     package: $(System.ArtifactsDirectory)/**/*.zip
 
     #Uncomment the next lines to deploy to a deployment slot
