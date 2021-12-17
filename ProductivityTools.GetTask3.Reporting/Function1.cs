@@ -13,6 +13,10 @@ namespace ProductivityTools.GetTask3.Reporting
 {
     public static class Function1
     {
+
+        static string URL = "http://apigettask3.productivitytools.tech:8040/api/";// Consts.EndpointAddress;
+        //static string URL = "http://localhost:5513/api/";// Consts.EndpointAddress;
+
         [FunctionName("Function1")]
         public static async Task Run([TimerTrigger("0 */5 * * * *")] TimerInfo myTimer, ILogger log)
         {
@@ -61,7 +65,7 @@ namespace ProductivityTools.GetTask3.Reporting
         {
             log.LogInformation($"C# Timer trigger function executed at: {DateTime.Now}");
             Action<string> lg = (s) => log.LogInformation(s);
-            var rootElement = await ProductivityTools.GetTask3.Sdk.TaskClient.GetStructure(null, string.Empty, lg);
+            var rootElement = await new ProductivityTools.GetTask3.Sdk.TaskClient(URL).GetStructure(null, string.Empty, lg);
             string result = FindClosed(rootElement.Name, rootElement);
             return result;
         }
