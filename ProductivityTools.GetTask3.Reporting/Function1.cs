@@ -42,6 +42,15 @@ namespace ProductivityTools.GetTask3.Reporting
 
         }
 
+        [FunctionName("GetDateTime2")]
+        public static string GetDateTime2(
+  [HttpTrigger(AuthorizationLevel.Anonymous, "get", "post", Route = null)] HttpRequest req,
+  ILogger log)
+        {
+            return DateTime.Now.ToString();
+
+        }
+
         private static string FindClosed(string path, Contract.ElementView element)
         {
             if (element.Finished.HasValue && element.Finished.Value > DateTime.Now.AddDays(-1))
