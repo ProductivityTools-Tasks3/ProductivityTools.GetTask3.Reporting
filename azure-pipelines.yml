@@ -42,16 +42,16 @@ steps:
 - task: DotNetCoreCLI@2
   inputs:
     command: 'build'
-        projects: '$(SolutionPath)'
-      displayName: 'Build solution'
+    projects: '$(SolutionPath)'
+    displayName: 'Build solution'
         
 - task: DotNetCoreCLI@2
-      inputs:
-        command: 'publish'
-        publishWebProjects: false
-        projects: '$(SolutionPath)'
-        arguments: '--configuration $(buildConfiguration) --output $(Build.ArtifactStagingDirectory)/$(buildConfiguration)'
-      displayName: 'Publish solution'
+  inputs:
+    command: 'publish'
+    publishWebProjects: false
+    projects: '$(SolutionPath)'
+    arguments: '--configuration $(buildConfiguration) --output $(Build.ArtifactStagingDirectory)/$(buildConfiguration)'
+    displayName: 'Publish solution'
     
 - task: AzureFunctionApp@1  # Add this at the end of your file
   inputs:
