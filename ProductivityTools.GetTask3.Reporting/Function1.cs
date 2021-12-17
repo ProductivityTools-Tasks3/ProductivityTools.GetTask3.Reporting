@@ -42,6 +42,8 @@ namespace ProductivityTools.GetTask3.Reporting
           [HttpTrigger(AuthorizationLevel.Anonymous, "get", "post", Route = null)] HttpRequest req,
           ILogger log)
         {
+            
+            log.LogInformation(System.Environment.GetEnvironmentVariable("AzureWebJobsStorage"));
             return DateTime.Now.ToString();
 
         }
