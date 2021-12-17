@@ -27,7 +27,7 @@ namespace ProductivityTools.GetTask3.Reporting
             [HttpTrigger(AuthorizationLevel.Anonymous, "get", "post", Route = null)] HttpRequest req,
             ILogger log)
         {
-            string s=await GetClosed(log);
+            string s = await GetClosed(log);
             await SendEmail(s);
             return new OkObjectResult("Fda");
 
