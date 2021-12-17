@@ -27,12 +27,36 @@ steps:
     msbuildArgs: '/p:DeployOnBuild=true /p:WebPublishMethod=Package /p:PackageAsSingleFile=true /p:SkipInvalidConfigurations=true /p:PackageLocation="$(build.artifactStagingDirectory)"'
     platform: '$(buildPlatform)'
     configuration: '$(buildConfiguration)'
-    
+- task: UseDotNet@2      
+      inputs:
+        packageType: 'sdk'
+        version: '3.x'
+      displayName: 'Use .NET Core SDK 3.x'
+
+- task: DotNetCoreCLI@2
+      inputs:
+        command: 'restore'
+        projects: '$(SolutionPath)'
+      displayName: 'Restore NuGet packages'
+ 
+- task: DotNetCoreCLI@2
+      inputs:
+        command: 'build'
+        projects: '$(SolutionPath)'
+      displayName: 'Build solution'
+        
+- task: DotNetCoreCLI@2
+      inputs:
+        command: 'publish'
+        publishWebProjects: false
+        projects: '$(SolutionPath)'
+        arguments: '--configuration $(buildConfiguration) --output $(Build.ArtifactStagingDirectory)/$(buildConfiguration)'
+      displayName: 'Publish solution'
     
 - task: AzureFunctionApp@1  # Add this at the end of your file
   inputs:
     azureSubscription: Task3Connection
-    appType: functionAppLinux # default is functionApp
+    appType: functionApp # default is functionApp
     appName: ProductivityToolsGetTask3
     package: $(System.ArtifactsDirectory)/**/*.zip
 
