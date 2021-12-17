@@ -31,7 +31,7 @@ steps:
     configuration: '$(buildConfiguration)'
     
     
-- task: GetTask3.Reporting@1 # Add this at the end of your file
+- task: AzureFunctionApp@1  # Add this at the end of your file
   inputs:
     azureSubscription: a95863bd-693e-4134-8e5b-ba5fac889b9f
     appType: functionAppLinux # default is functionApp
