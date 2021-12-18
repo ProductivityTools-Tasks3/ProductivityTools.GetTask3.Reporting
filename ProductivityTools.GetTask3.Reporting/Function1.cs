@@ -89,6 +89,7 @@ namespace ProductivityTools.GetTask3.Reporting
             .AddMasterConfiguration()
             .Build();
             string password = configuration["GmailPassword"];
+            log.LogInformation("gmail pass");
             log.LogInformation(password);
             SentEmailGmail.Gmail.Send("productivitytools.tech@gmail.com", password, "pwujczyk@hotmail.com", "DNSModddnitor", body);
         }
