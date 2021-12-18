@@ -42,7 +42,7 @@ namespace ProductivityTools.GetTask3.Reporting
           [HttpTrigger(AuthorizationLevel.Anonymous, "get", "post", Route = null)] HttpRequest req,
           ILogger log)
         {
-            
+
             log.LogInformation(System.Environment.GetEnvironmentVariable("AzureWebJobsStorage"));
             return DateTime.Now.ToString();
 
@@ -52,7 +52,7 @@ namespace ProductivityTools.GetTask3.Reporting
         {
             if (element.Finished.HasValue && element.Finished.Value > DateTime.Now.AddDays(-1))
             {
-                return string.Concat(path,"\\", element.Name) + Environment.NewLine;
+                return string.Concat(path, "\\", element.Name) + Environment.NewLine;
             }
             var r = string.Empty;
             foreach (var item in element.Elements)
@@ -62,12 +62,23 @@ namespace ProductivityTools.GetTask3.Reporting
             return r;
         }
 
+        private static IConfiguration Configuration
+        {
+            get
+            {
+                var configuration = new ConfigurationBuilder()
+                       .AddMasterConfiguration("ProductivityTools.GetTask3.Client.json")
+                       .AddEnvironmentVariables()
+                       .Build();
+                return configuration;
+            }
+        }
 
         private static async Task<string> GetClosed(ILogger log)
         {
             log.LogInformation($"C# Timer trigger function executed at: {DateTime.Now}");
             Action<string> lg = (s) => log.LogInformation(s);
-            var rootElement = await new ProductivityTools.GetTask3.Sdk.TaskClient(URL,lg).GetStructure(null, string.Empty);
+            var rootElement = await new ProductivityTools.GetTask3.Sdk.TaskClient(URL, Configuration, lg).GetStructure(null, string.Empty);
             string result = FindClosed(rootElement.Name, rootElement);
             return result;
         }
