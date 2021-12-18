@@ -32,7 +32,7 @@ namespace ProductivityTools.GetTask3.Reporting
             ILogger log)
         {
             string s = await GetClosed(log);
-            await SendEmail(s);
+            await SendEmail(s, log);
             return new OkObjectResult("Fda");
 
         }
@@ -83,13 +83,14 @@ namespace ProductivityTools.GetTask3.Reporting
             return result;
         }
 
-        private static async Task SendEmail(string body)
+        private static async Task SendEmail(string body,ILogger log)
         {
             IConfigurationRoot configuration = new ConfigurationBuilder()
             .AddMasterConfiguration()
             .Build();
             string password = configuration["GmailPassword"];
-            SentEmailGmail.Gmail.Send("productivitytools.tech@gmail.com", configuration["GmailPassword"], "pwujczyk@hotmail.com", "DNSModddnitor", body);
+            log.LogInformation(password);
+            SentEmailGmail.Gmail.Send("productivitytools.tech@gmail.com", password, "pwujczyk@hotmail.com", "DNSModddnitor", body);
         }
 
     }
