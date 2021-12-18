@@ -85,10 +85,7 @@ namespace ProductivityTools.GetTask3.Reporting
 
         private static async Task SendEmail(string body,ILogger log)
         {
-            IConfigurationRoot configuration = new ConfigurationBuilder()
-            .AddMasterConfiguration()
-            .Build();
-            string password = configuration["GmailPassword"];
+            string password = Configuration["GmailPassword"];
             log.LogInformation("gmail pass");
             log.LogInformation(password);
             SentEmailGmail.Gmail.Send("productivitytools.tech@gmail.com", password, "pwujczyk@hotmail.com", "DNSModddnitor", body);
