@@ -62,7 +62,7 @@ namespace ProductivityTools.GetTask3.Reporting
             return r;
         }
 
-        private static IConfiguration Configuration
+        private static IConfigurationRoot Configuration
         {
             get
             {
