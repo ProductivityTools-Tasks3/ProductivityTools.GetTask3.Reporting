@@ -17,7 +17,7 @@ namespace ProductivityTools.GetTask3.Reporting
         static string URL = "https://apigettask3.productivitytools.tech:8040/api/";// Consts.EndpointAddress;
         //static string URL = "http://localhost:5513/api/";// Consts.EndpointAddress;
 
-        [FunctionName("Send report")]
+        [FunctionName("SendReport")]
         public static async Task Run([TimerTrigger("0 */5 * * *")] TimerInfo myTimer, ILogger log)
         {
             string s = await GetClosed(log);
