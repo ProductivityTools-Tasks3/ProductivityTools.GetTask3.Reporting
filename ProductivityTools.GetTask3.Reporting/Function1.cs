@@ -17,11 +17,11 @@ namespace ProductivityTools.GetTask3.Reporting
         static string URL = "https://apigettask3.productivitytools.tech:8040/api/";// Consts.EndpointAddress;
         //static string URL = "http://localhost:5513/api/";// Consts.EndpointAddress;
 
-        [FunctionName("Function1")]
+        [FunctionName("Send report")]
         public static async Task Run([TimerTrigger("0 */5 * * *")] TimerInfo myTimer, ILogger log)
         {
             string s = await GetClosed(log);
-            await SendEmail(s, log);
+            SendEmail(s, log);
         }
 
 
@@ -32,7 +32,7 @@ namespace ProductivityTools.GetTask3.Reporting
             ILogger log)
         {
             string s = await GetClosed(log);
-            await SendEmail(s, log);
+            SendEmail(s, log);
             return new OkObjectResult("Fda");
 
         }
@@ -83,7 +83,7 @@ namespace ProductivityTools.GetTask3.Reporting
             return result;
         }
 
-        private static async Task SendEmail(string body,ILogger log)
+        private static void SendEmail(string body,ILogger log)
         {
             string password = Configuration["GmailPassword"];
             log.LogInformation("gmail pass");
