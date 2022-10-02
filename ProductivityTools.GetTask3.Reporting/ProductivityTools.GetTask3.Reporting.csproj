@@ -10,7 +10,7 @@
     <PackageReference Include="Microsoft.NET.Sdk.Functions" Version="4.0.1" />
     <PackageReference Include="ProductivityTools.GetTask3.Sdk" Version="0.0.13" />
     <PackageReference Include="ProductivityTools.MasterConfiguration" Version="2.0.5" />
-    <PackageReference Include="ProductivityTools.SentEmailGmail" Version="1.0.0" />
+    <PackageReference Include="ProductivityTools.SendEmailGmail" Version="0.0.13" />
     <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.23.1" />
   </ItemGroup>
   <ItemGroup>
