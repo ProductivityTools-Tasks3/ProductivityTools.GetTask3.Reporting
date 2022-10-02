@@ -48,6 +48,7 @@ namespace ProductivityTools.GetTask3.Reporting
 
         }
 
+
         private static string FindClosed(string path, Contract.ElementView element)
         {
             if (element.Finished.HasValue && element.Finished.Value > DateTime.Now.AddDays(-1))
@@ -74,11 +75,21 @@ namespace ProductivityTools.GetTask3.Reporting
             }
         }
 
+        private static string FirebaseWebApiKey
+        {
+            get
+            {
+                var key = Configuration["FirebaseWebApiKey"];
+                return key;
+            }
+        }
+
+
         private static async Task<string> GetClosed(ILogger log)
         {
             log.LogInformation($"C# Timer trigger function executed at: {DateTime.Now}");
             Action<string> lg = (s) => log.LogInformation(s);
-            var rootElement = await new ProductivityTools.GetTask3.Sdk.TaskClient(URL, Configuration, lg).GetStructure(null, string.Empty);
+            var rootElement = await new ProductivityTools.GetTask3.Sdk.TaskClient(URL, FirebaseWebApiKey, lg).GetStructure(null, string.Empty);
             string result = FindClosed(rootElement.Name, rootElement);
             return result;
         }
