@@ -89,6 +89,8 @@ namespace ProductivityTools.GetTask3.Reporting
         {
             log.LogInformation($"C# Timer trigger function executed at: {DateTime.Now}");
             Action<string> lg = (s) => log.LogInformation(s);
+            log.LogInformation("firebase weba pi key");
+            log.LogInformation(FirebaseWebApiKey);
             var rootElement = await new ProductivityTools.GetTask3.Sdk.TaskClient(URL, FirebaseWebApiKey, lg).GetStructure(null, string.Empty);
             string result = FindClosed(rootElement.Name, rootElement);
             return result;
