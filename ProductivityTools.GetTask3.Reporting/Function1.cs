@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -33,8 +34,7 @@ namespace ProductivityTools.GetTask3.Reporting
         {
             string s = await GetClosed(log);
             SendEmail(s, log);
-            return new OkObjectResult("Fda");
-
+            return new OkObjectResult("Report sent");
         }
 
         [FunctionName("GetDateTime")]
@@ -42,25 +42,8 @@ namespace ProductivityTools.GetTask3.Reporting
           [HttpTrigger(AuthorizationLevel.Anonymous, "get", "post", Route = null)] HttpRequest req,
           ILogger log)
         {
-
             log.LogInformation(System.Environment.GetEnvironmentVariable("AzureWebJobsStorage"));
             return DateTime.Now.ToString();
-
-        }
-
-
-        private static string FindClosed(string path, Contract.ElementView element)
-        {
-            if (element.Finished.HasValue && element.Finished.Value > DateTime.Now.AddDays(-1))
-            {
-                return string.Concat(path, "\\", element.Name) + Environment.NewLine;
-            }
-            var r = string.Empty;
-            foreach (var item in element.Elements)
-            {
-                r += FindClosed(element.Name, item);
-            }
-            return r;
         }
 
         private static IConfigurationRoot Configuration
@@ -92,11 +75,14 @@ namespace ProductivityTools.GetTask3.Reporting
             log.LogInformation("firebase weba pi key");
             log.LogInformation(FirebaseWebApiKey);
             var rootElement = await new ProductivityTools.GetTask3.Sdk.TaskClient(URL, FirebaseWebApiKey, lg).GetStructure(null, string.Empty);
-            string result = FindClosed(rootElement.Name, rootElement);
+
+            ReportMd.PrepareReport(rootElement);
+
+            string result = ReportSimple.PrepareReport(rootElement);
             return result;
         }
 
-        private static void SendEmail(string body,ILogger log)
+        private static void SendEmail(string body, ILogger log)
         {
             string password = Configuration["GmailPassword"];
             log.LogInformation("gmail pass");

@@ -1,0 +1,104 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace ProductivityTools.GetTask3.Reporting
+{
+    internal class ReportMd
+    {
+        private static Dictionary<Contract.ElementView, Contract.ElementView> CaseParent = new Dictionary<Contract.ElementView, Contract.ElementView>();
+        private static List<Contract.ElementView> Closed = new List<Contract.ElementView>();
+
+        public static void PrepareReport(Contract.ElementView rootElement)
+        {
+            FindClosedTree(rootElement);
+            FindClosedMd(rootElement);
+            BuildMD();
+        }
+        private static void FindClosedMd(Contract.ElementView element)
+        {
+            if (element.Finished.HasValue && element.Finished.Value > DateTime.Now.AddDays(-1))
+            {
+                Closed.Add(element);
+            }
+            foreach (var item in element.Elements)
+            {
+                CaseParent.Add(item, element);
+                FindClosedMd(item);
+            }
+        }
+
+        private static bool FindClosedTree(Contract.ElementView element)
+        {
+            for (int i = element.Elements.Count; i >=0; i--)
+            {
+                var result= FindClosedTree(element.Elements[i]);
+                if (result==false)
+                {
+                    element.Elements.Remove(element.Elements[i]);
+                }
+            }
+
+            if ((element.Finished.HasValue && element.Finished.Value > DateTime.Now.AddDays(-1) )|| element.Elements.Count>0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        public static string BuildMD()
+        {
+            string result = string.Empty;
+            foreach (var item in Closed)
+            {
+                List<string> list = new List<string>();
+                list.Add(item.Name);
+                var element = item;
+                while (CaseParent.ContainsKey(CaseParent[element]))
+                {
+                    element = CaseParent[element];
+                    list.Add(element.Name);
+                }
+
+                result += FormatMD(list);
+            }
+
+            return result;
+        }
+        private static string FormatMD(List<string> input)
+        {
+            string result = string.Empty;
+            input.Reverse();
+            for (int i = 0; i < input.Count; i++)
+            {
+                if (i == 0)
+                {
+                    result += string.Format($"# {input[0]}") + Environment.NewLine;
+                }
+                if (i == 1)
+                {
+                    result += string.Format($"## {input[1]}") + Environment.NewLine;
+                }
+                if (i == 2)
+                {
+                    result += string.Format($"- {input[2]}") + Environment.NewLine;
+                }
+                if (i == 3)
+                {
+                    result += string.Format($"  - {input[3]}") + Environment.NewLine;
+                }
+                if (i > 4)
+                {
+                    result += string.Format($"  - $ {input[3]}") + Environment.NewLine;
+
+                }
+            }
+            return result;
+
+        }
+    }
+}
