@@ -83,6 +83,31 @@ namespace ProductivityTools.GetTask3.Reporting
         //    }
         //}
 
+        private static DateTime? startOfTheWeek;
+        private static DateTime StartOfTheWeek
+        {
+            get
+            {
+                if(startOfTheWeek == null)
+                {
+                    DateTime now = DateTime.Now;
+                    int dayOfWeek = (int)now.DayOfWeek-1;
+
+                    if (dayOfWeek < 0)
+                    {// day of week is Sunday and we want to use Monday as the start of the week
+                     // Sunday is now the seventh day of the week
+                        dayOfWeek = 6;
+                    }
+
+                    startOfTheWeek= now.AddDays(-1 * (double)dayOfWeek).Date;
+                }
+                return startOfTheWeek.Value;
+            }
+            
+        }
+
+
+
         private static bool RemoveNotFinishedElements(Contract.ElementView element)
         {
             for (int i = element.Elements.Count - 1; i >= 0; i--)
@@ -94,7 +119,7 @@ namespace ProductivityTools.GetTask3.Reporting
                 }
             }
 
-            if ((element.Finished.HasValue && element.Finished.Value > DateTime.Now.AddDays(-1)) || element.Elements.Count > 0)
+            if ((element.Finished.HasValue && element.Finished.Value >= StartOfTheWeek) || element.Elements.Count > 0)
             {
                 return true;
             }
@@ -122,36 +147,36 @@ namespace ProductivityTools.GetTask3.Reporting
 
         //    return result;
         //}
-        private static string FormatMD(List<string> input)
-        {
-            string result = string.Empty;
-            input.Reverse();
-            for (int i = 0; i < input.Count; i++)
-            {
-                if (i == 0)
-                {
-                    result += string.Format($"# {input[0]}") + Environment.NewLine;
-                }
-                if (i == 1)
-                {
-                    result += string.Format($"## {input[1]}") + Environment.NewLine;
-                }
-                if (i == 2)
-                {
-                    result += string.Format($"- {input[2]}") + Environment.NewLine;
-                }
-                if (i == 3)
-                {
-                    result += string.Format($"  - {input[3]}") + Environment.NewLine;
-                }
-                if (i > 4)
-                {
-                    result += string.Format($"  - $ {input[3]}") + Environment.NewLine;
+        //private static string FormatMD(List<string> input)
+        //{
+        //    string result = string.Empty;
+        //    input.Reverse();
+        //    for (int i = 0; i < input.Count; i++)
+        //    {
+        //        if (i == 0)
+        //        {
+        //            result += string.Format($"# {input[0]}") + Environment.NewLine;
+        //        }
+        //        if (i == 1)
+        //        {
+        //            result += string.Format($"## {input[1]}") + Environment.NewLine;
+        //        }
+        //        if (i == 2)
+        //        {
+        //            result += string.Format($"- {input[2]}") + Environment.NewLine;
+        //        }
+        //        if (i == 3)
+        //        {
+        //            result += string.Format($"  - {input[3]}") + Environment.NewLine;
+        //        }
+        //        if (i > 4)
+        //        {
+        //            result += string.Format($"  - $ {input[3]}") + Environment.NewLine;
 
-                }
-            }
-            return result;
+        //        }
+        //    }
+        //    return result;
 
-        }
+        //}
     }
 }

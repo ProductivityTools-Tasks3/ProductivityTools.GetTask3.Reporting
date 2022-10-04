@@ -76,9 +76,10 @@ namespace ProductivityTools.GetTask3.Reporting
             log.LogInformation(FirebaseWebApiKey);
             var rootElement = await new ProductivityTools.GetTask3.Sdk.TaskClient(URL, FirebaseWebApiKey, lg).GetStructure(null, string.Empty);
 
-            ReportMd.PrepareReport(rootElement);
+            //ReportMd.PrepareReport(rootElement);
 
-            string result = ReportSimple.PrepareReport(rootElement);
+            //string result = ReportSimple.PrepareReport(rootElement);
+            string result = ReportMd.PrepareReport(rootElement);
             return result;
         }
 
