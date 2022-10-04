@@ -11,37 +11,90 @@ namespace ProductivityTools.GetTask3.Reporting
         private static Dictionary<Contract.ElementView, Contract.ElementView> CaseParent = new Dictionary<Contract.ElementView, Contract.ElementView>();
         private static List<Contract.ElementView> Closed = new List<Contract.ElementView>();
 
-        public static void PrepareReport(Contract.ElementView rootElement)
+        public static string PrepareReport(Contract.ElementView rootElement)
         {
-            FindClosedTree(rootElement);
-            FindClosedMd(rootElement);
-            BuildMD();
-        }
-        private static void FindClosedMd(Contract.ElementView element)
-        {
-            if (element.Finished.HasValue && element.Finished.Value > DateTime.Now.AddDays(-1))
-            {
-                Closed.Add(element);
-            }
-            foreach (var item in element.Elements)
-            {
-                CaseParent.Add(item, element);
-                FindClosedMd(item);
-            }
+            RemoveNotFinishedElements(rootElement);
+            StringBuilder sb = new StringBuilder();
+            BuildMdBFS(rootElement, sb, 0);
+            var r = sb.ToString();
+            return r;
+            //FindClosedMd(rootElement);
+            //BuildMD();
         }
 
-        private static bool FindClosedTree(Contract.ElementView element)
+        private static string GetMarkdown(int amount)
         {
-            for (int i = element.Elements.Count; i >=0; i--)
+            string result = "";
+            if (amount < 4)
             {
-                var result= FindClosedTree(element.Elements[i]);
-                if (result==false)
+                result += GetHash(amount);
+            }
+            else
+            {
+                result += GetHypen(amount);
+            }
+            result += " ";
+            return result;
+        }
+        private static string GetHash(int amount)
+        {
+            string result = "";
+            for (int i = 0; i < amount; i++)
+            {
+                result += "#";
+
+            }
+            return result;
+        }
+
+        private static string GetHypen(int amount)
+        {
+            string result = "";
+            for (int i = 4; i < amount; i++)
+            {
+                result += "  ";
+            }
+            result += "-";
+            return result;
+        }
+
+
+
+
+        private static void BuildMdBFS(Contract.ElementView element, StringBuilder sb, int level)
+        {
+            sb.Append(GetMarkdown(level) + element.Name + Environment.NewLine);
+            foreach (var item in element.Elements)
+            {
+                BuildMdBFS(item, sb, level + 1);
+            }
+
+        }
+        //private static void FindClosedMd(Contract.ElementView element)
+        //{
+        //    if (element.Finished.HasValue && element.Finished.Value > DateTime.Now.AddDays(-1))
+        //    {
+        //        Closed.Add(element);
+        //    }
+        //    foreach (var item in element.Elements)
+        //    {
+        //        CaseParent.Add(item, element);
+        //        FindClosedMd(item);
+        //    }
+        //}
+
+        private static bool RemoveNotFinishedElements(Contract.ElementView element)
+        {
+            for (int i = element.Elements.Count - 1; i >= 0; i--)
+            {
+                var result = RemoveNotFinishedElements(element.Elements[i]);
+                if (result == false)
                 {
                     element.Elements.Remove(element.Elements[i]);
                 }
             }
 
-            if ((element.Finished.HasValue && element.Finished.Value > DateTime.Now.AddDays(-1) )|| element.Elements.Count>0)
+            if ((element.Finished.HasValue && element.Finished.Value > DateTime.Now.AddDays(-1)) || element.Elements.Count > 0)
             {
                 return true;
             }
@@ -50,25 +103,25 @@ namespace ProductivityTools.GetTask3.Reporting
                 return false;
             }
         }
-        public static string BuildMD()
-        {
-            string result = string.Empty;
-            foreach (var item in Closed)
-            {
-                List<string> list = new List<string>();
-                list.Add(item.Name);
-                var element = item;
-                while (CaseParent.ContainsKey(CaseParent[element]))
-                {
-                    element = CaseParent[element];
-                    list.Add(element.Name);
-                }
+        //public static string BuildMD()
+        //{
+        //    string result = string.Empty;
+        //    foreach (var item in Closed)
+        //    {
+        //        List<string> list = new List<string>();
+        //        list.Add(item.Name);
+        //        var element = item;
+        //        while (CaseParent.ContainsKey(CaseParent[element]))
+        //        {
+        //            element = CaseParent[element];
+        //            list.Add(element.Name);
+        //        }
 
-                result += FormatMD(list);
-            }
+        //        result += FormatMD(list);
+        //    }
 
-            return result;
-        }
+        //    return result;
+        //}
         private static string FormatMD(List<string> input)
         {
             string result = string.Empty;
