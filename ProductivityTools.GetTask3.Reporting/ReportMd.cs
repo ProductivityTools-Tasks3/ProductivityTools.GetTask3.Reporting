@@ -119,7 +119,7 @@ namespace ProductivityTools.GetTask3.Reporting
                 }
             }
 
-            if ((element.Finished.HasValue && element.Finished.Value >= StartOfTheWeek) || element.Elements.Count > 0)
+            if ((element.Finished.HasValue && element.Finished.Value > StartOfTheWeek) || element.Elements.Count > 0)
             {
                 return true;
             }
