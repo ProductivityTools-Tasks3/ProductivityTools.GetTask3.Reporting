@@ -13,7 +13,7 @@ namespace ProductivityTools.GetTask3.Reporting
 
         public static string PrepareReport(Contract.ElementView rootElement)
         {
-            //RemoveNotFinishedElements(rootElement);
+            RemoveNotFinishedElements(rootElement);
             StringBuilder sb = new StringBuilder();
             BuildMdBFS(rootElement, sb, 0);
             var r = sb.ToString();
