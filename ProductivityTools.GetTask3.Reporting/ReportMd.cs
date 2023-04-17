@@ -25,7 +25,7 @@ namespace ProductivityTools.GetTask3.Reporting
         private static string GetMarkdown(int amount)
         {
             string result = "";
-            if (amount < 4)
+            if (amount < 1)
             {
                 result += GetHash(amount);
             }
@@ -39,7 +39,7 @@ namespace ProductivityTools.GetTask3.Reporting
         private static string GetHash(int amount)
         {
             string result = "";
-            for (int i = 0; i < amount; i++)
+            for (int i = 0; i <= amount; i++)
             {
                 result += "#";
 
@@ -50,7 +50,7 @@ namespace ProductivityTools.GetTask3.Reporting
         private static string GetHypen(int amount)
         {
             string result = "";
-            for (int i = 4; i < amount; i++)
+            for (int i = 1; i < amount; i++)
             {
                 result += "  ";
             }

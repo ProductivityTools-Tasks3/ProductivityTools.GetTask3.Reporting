@@ -67,6 +67,27 @@ namespace ProductivityTools.GetTask3.Reporting
             }
         }
 
+        private static async Task<Contract.ElementView> FindElement(Contract.ElementView root, string name)
+        {
+            if(root.Name== name)
+            {
+                return root;
+            }
+            else
+            {
+                foreach(var el in root.Elements)
+                {
+
+                    var temp= await FindElement(el, name);
+                    if (temp!=null)
+                    {
+                        return temp;
+                    }
+                }
+            }
+            return null;
+        }
+
 
         private static async Task<string> GetClosed(ILogger log)
         {
@@ -79,7 +100,8 @@ namespace ProductivityTools.GetTask3.Reporting
             //ReportMd.PrepareReport(rootElement);
 
             //string result = ReportSimple.PrepareReport(rootElement);
-            string result = ReportMd.PrepareReport(rootElement);
+            var inbox = await FindElement(rootElement, "Inbox");
+            string result = ReportMd.PrepareReport(inbox);
             return result;
         }
 
