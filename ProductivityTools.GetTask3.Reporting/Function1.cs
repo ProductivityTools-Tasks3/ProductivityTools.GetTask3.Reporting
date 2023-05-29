@@ -19,7 +19,7 @@ namespace ProductivityTools.GetTask3.Reporting
         //static string URL = "http://localhost:5513/api/";// Consts.EndpointAddress;
 
         [FunctionName("SendReport")]
-        public static async Task Run([TimerTrigger("0 */5 * * *")] TimerInfo myTimer, ILogger log)
+        public static async Task Run([TimerTrigger("0 0 * * 1")] TimerInfo myTimer, ILogger log)
         {
             string s = await GetClosed(log);
             SendEmail(s, log);
@@ -110,7 +110,7 @@ namespace ProductivityTools.GetTask3.Reporting
             string password = Configuration["GmailPassword"];
             log.LogInformation("gmail pass");
             log.LogInformation(password);
-            SendEmailGmail.Gmail.Send("productivitytools.tech@gmail.com", password, "pwujczyk@hotmail.com", "GetTask3", body);
+            SendEmailGmail.Gmail.Send("productivitytools.tech@gmail.com", password, "pwujczyk@gmail.com", "GetTask3", body);
         }
 
     }
