@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.WebJobs;
@@ -88,6 +90,38 @@ namespace ProductivityTools.GetTask3.Reporting
             return result;
         }
 
+        private static async Task<Contract.ElementView> FindElement(Contract.ElementView root, int id)
+        {
+            if (root.ElementId == id)
+            {
+                return root;
+            }
+            else
+            {
+                foreach (var el in root.Elements)
+                {
+
+                    var temp = await FindElement(el, id);
+                    if (temp != null)
+                    {
+                        return temp;
+                    }
+                }
+            }
+            return null;
+        }
+
+        private static async Task<string> GetPathToRoot(Contract.ElementView root, Contract.ElementView element)
+        {
+            string s = string.Empty;
+            while (element != null && element.ParentId != null)
+            {
+                s = s.Insert(0, element.Name + " >>") ;
+                element = await FindElement(root, element.ParentId.Value);
+            }
+            return s;
+        }
+
 
         private static async Task<string> GetClosed(ILogger log)
         {
@@ -104,6 +138,7 @@ namespace ProductivityTools.GetTask3.Reporting
             string result = string.Empty;
             foreach (var i in inbox)
             {
+                result += await GetPathToRoot(rootElement, i);
                 result += ReportMd.PrepareReport(i);
             }
             return result;
