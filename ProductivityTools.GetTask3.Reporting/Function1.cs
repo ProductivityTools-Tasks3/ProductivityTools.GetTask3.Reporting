@@ -69,6 +69,17 @@ namespace ProductivityTools.GetTask3.Reporting
             }
         }
 
+        private static async Task<List<Contract.ElementView>> FindElements(Contract.ElementView root, List<string> names)
+        {
+            var result = new List<Contract.ElementView>();
+            foreach (var item in names)
+            {
+                var r1 = await FindElement(root,item);
+                result.AddRange(r1);
+            }
+            return result;
+        }
+
         private static async Task<List<Contract.ElementView>> FindElement(Contract.ElementView root, string name)
         {
             var result = new List<Contract.ElementView>();
@@ -134,7 +145,7 @@ namespace ProductivityTools.GetTask3.Reporting
             //ReportMd.PrepareReport(rootElement);
 
             //string result = ReportSimple.PrepareReport(rootElement);
-            var inbox = await FindElement(rootElement, "Inbox");
+            var inbox = await FindElements(rootElement, new List<string> { "Inbox", "S2Projects" });
             string result = string.Empty;
             foreach (var i in inbox)
             {
