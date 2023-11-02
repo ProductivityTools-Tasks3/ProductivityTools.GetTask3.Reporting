@@ -17,7 +17,7 @@ namespace ProductivityTools.GetTask3.Reporting
     public static class Function1
     {
 
-        static string URL = "https://apigettask3.productivitytools.top:8040/api/";// Consts.EndpointAddress;
+        static string URL = "https://apigettask3.productivitytools.top:8042/api/";// Consts.EndpointAddress;
         //static string URL = "http://localhost:5513/api/";// Consts.EndpointAddress;
 
         [FunctionName("SendReport")]
