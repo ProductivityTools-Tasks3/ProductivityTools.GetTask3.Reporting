@@ -145,7 +145,7 @@ namespace ProductivityTools.GetTask3.Reporting
             //ReportMd.PrepareReport(rootElement);
 
             //string result = ReportSimple.PrepareReport(rootElement);
-            var inbox = await FindElements(rootElement, new List<string> { "Inbox", "S2Projects" });
+            var inbox = await FindElements(rootElement, new List<string> { "PawelPC", "Google" });
             string result = string.Empty;
             foreach (var i in inbox)
             {
