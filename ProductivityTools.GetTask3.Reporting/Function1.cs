@@ -23,7 +23,9 @@ namespace ProductivityTools.GetTask3.Reporting
         [FunctionName("SendReport")]
         public static async Task Run([TimerTrigger("50 23 * * *")] TimerInfo myTimer, ILogger log)
         {
-            string s = await GetClosed(log);
+            string s = await GetClosedForLast7Days(log);
+            SendEmail(s, log);
+            s = await GetClosedForThisWeek(log);
             SendEmail(s, log);
         }
 
@@ -34,7 +36,10 @@ namespace ProductivityTools.GetTask3.Reporting
             [HttpTrigger(AuthorizationLevel.Anonymous, "get", "post", Route = null)] HttpRequest req,
             ILogger log)
         {
-            string s = await GetClosed(log);
+            
+            string s = await GetClosedForLast7Days(log);
+            SendEmail(s, log);
+            s = await GetClosedForThisWeek(log);
             SendEmail(s, log);
             return new OkObjectResult("Report sent");
         }
@@ -133,14 +138,27 @@ namespace ProductivityTools.GetTask3.Reporting
             return s;
         }
 
+        private static async Task<string> GetClosedForThisWeek(ILogger log)
+        {
+            Action<string> lg = (s) => log.LogInformation(s);
+            var rootElement = await new ProductivityTools.GetTask3.Sdk.TaskClient(URL, FirebaseWebApiKey, lg).GetThisWeekFinishedForUser(null, string.Empty, "pwujczyk@gmail.com");
+            return await GetClosed(log, rootElement);
+        }
 
-        private static async Task<string> GetClosed(ILogger log)
+        private static async Task<string> GetClosedForLast7Days(ILogger log)
+        {
+            Action<string> lg = (s) => log.LogInformation(s);
+            var rootElement = await new ProductivityTools.GetTask3.Sdk.TaskClient(URL, FirebaseWebApiKey, lg).GetThisWeekFinishedForUser(null, string.Empty, "pwujczyk@gmail.com");
+            return await GetClosed(log, rootElement);
+        }
+
+        private static async Task<string> GetClosed(ILogger log, Contract.ElementView rootElement)
         {
             log.LogInformation($"C# Timer trigger function executed at: {DateTime.Now}");
-            Action<string> lg = (s) => log.LogInformation(s);
+            
             log.LogInformation("firebase weba pi key");
             log.LogInformation(FirebaseWebApiKey);
-            var rootElement = await new ProductivityTools.GetTask3.Sdk.TaskClient(URL, FirebaseWebApiKey, lg).GetThisWeekFinishedForUser(null, string.Empty, "pwujczyk@gmail.com");
+           
 
             //ReportMd.PrepareReport(rootElement);
 
