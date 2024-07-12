@@ -63,8 +63,8 @@ namespace ProductivityTools.GetTask3.Reporting
 
         private static void BuildMdBFS(Contract.ElementView element, StringBuilder sb, int level)
         {
-            sb.Append(GetMarkdown(level) + element.Name + Environment.NewLine);
-            foreach (var item in element.Elements)
+            sb.Append(GetMarkdown(level) + "["+element.Finished?.ToString("yyyy.MM.dd")+"]"+ element.Name + Environment.NewLine);
+            foreach (var item in element.Elements.OrderBy(x=>x.Finished))
             {
                 BuildMdBFS(item, sb, level + 1);
             }
