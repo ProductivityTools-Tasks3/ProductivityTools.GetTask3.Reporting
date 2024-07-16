@@ -14,7 +14,7 @@ variables:
   functionAppName: 'ProductivityToolsGetTask3'
 
   # Agent VM image name
-  vmImageName: 'windows-2019'
+  vmImageName: 'windows-latest'
 
   # Working Directory
   workingDirectory: 'droppw'
@@ -30,6 +30,12 @@ stages:
       vmImage: $(vmImageName)
 
     steps:
+    - task: UseDotNet@2
+      displayName: 'Install .NET Core sdk'
+      inputs:
+        packageType: sdk
+        version: 6.0.x
+        installationPath: $(Agent.ToolsDirectory)/dotnet
     - task: DotNetCoreCLI@2
       displayName: Build
       inputs:
