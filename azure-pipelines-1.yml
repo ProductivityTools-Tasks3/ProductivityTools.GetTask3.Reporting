@@ -36,12 +36,12 @@ stages:
         packageType: sdk
         version: 6.0.x
         installationPath: $(Agent.ToolsDirectory)/dotnet
-        
     - task: DotNetCoreCLI@2
       displayName: Build
       inputs:
         command: 'build'
-        projects: '**/*.csproj'
+        projects: |
+          $(workingDirectory)/*.csproj
         arguments: --output $(System.DefaultWorkingDirectory)/publish_output --configuration Release
 
     - task: ArchiveFiles@2
