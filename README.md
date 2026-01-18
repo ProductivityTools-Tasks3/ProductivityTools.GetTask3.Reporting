@@ -28,3 +28,10 @@ Some details
 ## Api Authentication
 - Api is protected with the OAuth and Firebase is used as authentication backend
 - To perform authentication we need to provide **FirebaseWebApiKey** it is also stored in Master configuration and environment variable
+
+
+### Google Functions
+
+```
+dotnet new gcf-http
+```
