@@ -13,6 +13,21 @@ public class Function : IHttpFunction
     /// <returns>A task representing the asynchronous operation.</returns>
     public async Task HandleAsync(HttpContext context)
     {
+
+        string s = await GetClosedForLast7Days(log);
+        // SendEmail(s, log);
+        // s = await GetClosedForThisWeek(log);
+        // SendEmail(s, log);
+        // return new OkObjectResult("Report sent");
+
+
         await context.Response.WriteAsync("Hello, Functions Framework.", context.RequestAborted);
+    }
+
+    private static async Task<string> GetClosedForLast7Days(ILogger log)
+    {
+        Action<string> lg = (s) => log.LogInformation(s);
+        var rootElement = await new ProductivityTools.GetTask3.Sdk.TaskClient(URL, FirebaseWebApiKey, lg).GetThisWeekFinishedForUser(null, string.Empty, "pwujczyk@gmail.com");
+        return await GetClosed(log, rootElement);
     }
 }
