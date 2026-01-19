@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Http;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Configuration;
+using ProductivityTools.MasterConfiguration;
 
 namespace ProductivityTools.GetTask3.Reporting;
 
@@ -132,15 +133,12 @@ public class Function : IHttpFunction
         log(FirebaseWebApiKey);
 
 
-        //ReportMd.PrepareReport(rootElement);
-
-        //string result = ReportSimple.PrepareReport(rootElement);
         var inbox = await FindElements(rootElement, new List<string> { "PawelPC", "Google" });
         string result = string.Empty;
         foreach (var i in inbox)
         {
             result += await GetPathToRoot(rootElement, i);
-            result += ReportMd.PrepareReport(i);
+            //result += ReportMd.PrepareReport(i);
         }
         return result;
     }
@@ -148,9 +146,9 @@ public class Function : IHttpFunction
     private static void SendEmail(string body, Action<string> log)
     {
         string password = Configuration["GmailPassword"];
-        log.LogInformation("gmail pass");
-        log.LogInformation(password);
-        SendEmailGmail.Gmail.Send("productivitytools.tech@gmail.com", password, "pwujczyk@gmail.com", "GetTask3", body);
+        log("gmail pass");
+        log(password);
+        //SendEmailGmail.Gmail.Send("productivitytools.tech@gmail.com", password, "pwujczyk@gmail.com", "GetTask3", body);
     }
 
 }

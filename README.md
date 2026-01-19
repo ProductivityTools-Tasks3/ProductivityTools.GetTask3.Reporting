@@ -35,4 +35,5 @@ Some details
 ```
 dotnet new gcf-http
 dotnet add package ProductivityTools.GetTask3.Sdk
+dotnet add package ProductivityTools.MasterConfiguration
 ```
