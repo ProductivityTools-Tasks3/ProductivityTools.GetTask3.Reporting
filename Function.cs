@@ -11,7 +11,7 @@ namespace ProductivityTools.GetTask3.Reporting;
 
 public class Function : IHttpFunction
 {
-    static string URL = "https://apigettask3.productivitytools.top:8042/api/";// Consts.EndpointAddress;
+    static string URL = "https://tasks-api.productivitytools.top/";// Consts.EndpointAddress;
 
     public async Task HandleAsync(HttpContext context)
     {
@@ -33,7 +33,7 @@ public class Function : IHttpFunction
         get
         {
             var configuration = new ConfigurationBuilder()
-                   .AddMasterConfiguration("ProductivityTools.GetTask3.Client.json")
+                   .AddMasterConfiguration("ProductivityTools.GetTask3.Client.json",true)
                    .AddEnvironmentVariables()
                    .Build();
             return configuration;
@@ -121,8 +121,17 @@ public class Function : IHttpFunction
 
     private static async Task<string> GetClosedForLast7Days(Action<string> log)
     {
+        try
+        {
         var rootElement = await new ProductivityTools.GetTask3.Sdk.TaskClient(URL, FirebaseWebApiKey, log).GetThisWeekFinishedForUser(null, string.Empty, "pwujczyk@gmail.com");
         return await GetClosed(log, rootElement);
+        }
+        catch (Exception ex)
+        {
+            Console.Write(ex.Message);
+        }
+        return string.Empty;
+
     }
 
     private static async Task<string> GetClosed(Action<string> log, Contract.ElementView rootElement)

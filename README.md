@@ -37,3 +37,8 @@ dotnet new gcf-http
 dotnet add package ProductivityTools.GetTask3.Sdk
 dotnet add package ProductivityTools.MasterConfiguration
 ```
+
+## Secret Manager
+
+
+![](2026-01-21-21-06-19.png)
