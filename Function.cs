@@ -11,7 +11,8 @@ namespace ProductivityTools.GetTask3.Reporting;
 
 public class Function : IHttpFunction
 {
-    static string URL = "https://tasks-api.productivitytools.top/";// Consts.EndpointAddress;
+    //static string URL = "https://tasks-api.productivitytools.top/api/";// Consts.EndpointAddress;
+    static string URL = "http://localhost:5513/api/";// Consts.EndpointAddress;
 
     public async Task HandleAsync(HttpContext context)
     {

@@ -9,7 +9,8 @@
                 "build",
                 "${workspaceFolder}/ProductivityTools.GetTask3.Reporting.csproj",
                 "/property:GenerateFullPaths=true",
-                "/consoleloggerparameters:NoSummary"
+                "/consoleloggerparameters:NoSummary",
+                "--no-restore"
             ],
             "problemMatcher": "$msCompile"
         }
