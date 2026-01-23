@@ -26,7 +26,7 @@ public class Function : IHttpFunction
         // return new OkObjectResult("Report sent");
 
 
-        await context.Response.WriteAsync("Hello, Functions Framework.", context.RequestAborted);
+        await context.Response.WriteAsync("Hello, Functions Framework."+s, context.RequestAborted);
     }
 
     private static IConfigurationRoot Configuration
