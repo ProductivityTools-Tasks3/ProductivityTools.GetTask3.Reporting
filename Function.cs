@@ -26,7 +26,7 @@ public class Function : IHttpFunction
         // return new OkObjectResult("Report sent");
 
 
-        await context.Response.WriteAsync("Hello, Functions Framework."+s, context.RequestAborted);
+        await context.Response.WriteAsync("Hello, Functions Framework." + s + "pawel", context.RequestAborted);
     }
 
     private static IConfigurationRoot Configuration
@@ -34,7 +34,7 @@ public class Function : IHttpFunction
         get
         {
             var configuration = new ConfigurationBuilder()
-                   .AddMasterConfiguration("ProductivityTools.GetTask3.Client.json",true)
+                   .AddMasterConfiguration("ProductivityTools.GetTask3.Client.json", true)
                    .AddEnvironmentVariables()
                    .Build();
             return configuration;
@@ -124,8 +124,8 @@ public class Function : IHttpFunction
     {
         try
         {
-        var rootElement = await new ProductivityTools.GetTask3.Sdk.TaskClient(URL, FirebaseWebApiKey, log).GetThisWeekFinishedForUser(null, string.Empty, "pwujczyk@gmail.com");
-        return await GetClosed(log, rootElement);
+            var rootElement = await new ProductivityTools.GetTask3.Sdk.TaskClient(URL, FirebaseWebApiKey, log).GetThisWeekFinishedForUser(null, string.Empty, "pwujczyk@gmail.com");
+            return await GetClosed(log, rootElement);
         }
         catch (Exception ex)
         {
