@@ -35,7 +35,7 @@ public class Function : IHttpFunction
         get
         {
             var configuration = new ConfigurationBuilder()
-                   .AddMasterConfiguration("ProductivityTools.GetTask3.Client.json")
+                   .AddMasterConfiguration("ProductivityTools.GetTask3.Client.json",true)
                    .AddEnvironmentVariables()
                    .Build();
             return configuration;
