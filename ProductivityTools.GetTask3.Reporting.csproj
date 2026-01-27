@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFramework>net8.0</TargetFramework>
+    <TargetFramework>net9.0</TargetFramework>
     
   </PropertyGroup>
 
@@ -9,7 +9,7 @@
     <PackageReference Include="Google.Cloud.Functions.Hosting" Version="3.0.1" />
     <None Include="appsettings*.json" CopyToOutputDirectory="PreserveNewest" />
     <PackageReference Include="Microsoft.Extensions.Configuration" Version="10.0.2" />
-    <PackageReference Include="ProductivityTools.GetTask3.Sdk" Version="0.0.18" />
+    <PackageReference Include="ProductivityTools.GetTask3.Sdk" Version="0.0.20" />
     <PackageReference Include="ProductivityTools.MasterConfiguration" Version="2.0.5" />
   </ItemGroup>
 </Project>
