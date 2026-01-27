@@ -123,6 +123,7 @@ public class Function : IHttpFunction
 
     private static async Task<string> GetClosedForLast7Days(Action<string> log)
     {
+        log("Get Closed for Last 7 days");
         try
         {
             var rootElement = await new ProductivityTools.GetTask3.Sdk.TaskClient(URL, FirebaseWebApiKey, log).GetThisWeekFinishedForUser(null, string.Empty, "pwujczyk@gmail.com");
