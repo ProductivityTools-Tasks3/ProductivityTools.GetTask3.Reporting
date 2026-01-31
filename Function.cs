@@ -19,7 +19,7 @@ public class Function : IHttpFunction
     {
 
         Action<string> consoleLog = (s) => Console.WriteLine(s);
-
+        consoleLog("===== Function started =====");
         string s = await GetClosedForLast7Days(consoleLog);
         // SendEmail(s, log);
         // s = await GetClosedForThisWeek(log);
