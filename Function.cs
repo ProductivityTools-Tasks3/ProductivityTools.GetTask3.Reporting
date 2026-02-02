@@ -11,12 +11,14 @@ namespace ProductivityTools.GetTask3.Reporting;
 
 public class Function : IHttpFunction
 {
+
     static string URL = "https://tasks-api.productivitytools.top/api/";// Consts.EndpointAddress;
     //static string URL = "http://localhost:5513/api/";// Consts.EndpointAddress;
     
 
     public async Task HandleAsync(HttpContext context)
     {
+       // Environment.SetEnvironmentVariable("GOOGLE_APPLICATION_CREDENTIALS", @"D:\GitHub\Home.Configuration\ptprojectsweb-firebase-adminsdk.json");
 
         Action<string> consoleLog = (s) => Console.WriteLine(s);
         consoleLog("===== Function started =====");
