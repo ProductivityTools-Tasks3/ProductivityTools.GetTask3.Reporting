@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "ProductivityTools.GetTask3.Reporting": {
+      "commandName": "Project",
+      "environmentVariables": {
+        "GOOGLE_APPLICATION_CREDENTIALS": "D:\\GitHub\\Home.Configuration\\ptprojectsweb-firebase-adminsdk.json"
+      }
+    }
+  }
+}

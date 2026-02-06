@@ -18,6 +18,7 @@ public class Function : IHttpFunction
 
     public async Task HandleAsync(HttpContext context)
     {
+        //in Launch settings this env variable is set
        // Environment.SetEnvironmentVariable("GOOGLE_APPLICATION_CREDENTIALS", @"D:\GitHub\Home.Configuration\ptprojectsweb-firebase-adminsdk.json");
 
         Action<string> consoleLog = (s) => Console.WriteLine(s);
