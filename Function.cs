@@ -21,11 +21,12 @@ public class Function : IHttpFunction
     public async Task HandleAsync(HttpContext context)
     {
         //in Launch settings this env variable is set
-       // Environment.SetEnvironmentVariable("GOOGLE_APPLICATION_CREDENTIALS", @"D:\GitHub\Home.Configuration\ptprojectsweb-firebase-adminsdk.json");
-
+        // Environment.SetEnvironmentVariable("GOOGLE_APPLICATION_CREDENTIALS", @"D:\GitHub\Home.Configuration\ptprojectsweb-firebase-adminsdk.json");
+        Environment.SetEnvironmentVariable("DOTNET_NetworkChange_UNSUPPORTED", "true");
         Action<string> consoleLog = (s) => Console.WriteLine(s);
         var Log = consoleLog;
         consoleLog("===== Function started =====");
+        
         using var handler = new HttpClientHandler();
         using var httpClient = new HttpClient(handler);
         HttpResponseMessage testresponse = await httpClient.GetAsync("http://www.wp.pl");
