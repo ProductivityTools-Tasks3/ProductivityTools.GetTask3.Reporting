@@ -54,8 +54,7 @@ public class Function : IHttpFunction
         var responseContent1 = await testresponsepost.Content.ReadAsStringAsync();
         Log("[GetIdToken] test post response content:" + responseContent1);
 
-        string s = "remove";
-        //string s = await GetClosedForLast7Days(consoleLog);
+        string s = await GetClosedForLast7Days(consoleLog);
         // SendEmail(s, log);
         // s = await GetClosedForThisWeek(log);
         // SendEmail(s, log);
