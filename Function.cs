@@ -17,6 +17,11 @@ public class Function : IHttpFunction
     static string URL = "https://tasks-api.productivitytools.top/api/";// Consts.EndpointAddress;
     //static string URL = "http://localhost:5513/api/";// Consts.EndpointAddress;
     
+    static Function()
+    {
+        Environment.SetEnvironmentVariable("DOTNET_NetworkChange_UNSUPPORTED", "true");
+        Environment.SetEnvironmentVariable("DOTNET_SYSTEM_NET_HTTP_SOCKETSHTTPHANDLER_HTTP2SUPPORT", "false");
+    }
 
     public async Task HandleAsync(HttpContext context)
     {
