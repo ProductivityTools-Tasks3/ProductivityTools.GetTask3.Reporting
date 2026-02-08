@@ -1,11 +1,13 @@
-using System;
-using System.Collections.Generic;
 using Google.Cloud.Functions.Framework;
 using Microsoft.AspNetCore.Http;
-using System.Threading.Tasks;
-using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 using ProductivityTools.MasterConfiguration;
+using System;
+using System.Collections.Generic;
+using System.Net.Http;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace ProductivityTools.GetTask3.Reporting;
 
@@ -22,8 +24,32 @@ public class Function : IHttpFunction
        // Environment.SetEnvironmentVariable("GOOGLE_APPLICATION_CREDENTIALS", @"D:\GitHub\Home.Configuration\ptprojectsweb-firebase-adminsdk.json");
 
         Action<string> consoleLog = (s) => Console.WriteLine(s);
+        var Log = consoleLog;
         consoleLog("===== Function started =====");
-        string s = await GetClosedForLast7Days(consoleLog);
+        using var handler = new HttpClientHandler();
+        using var httpClient = new HttpClient(handler);
+        HttpResponseMessage testresponse = await httpClient.GetAsync("http://www.wp.pl");
+        Log("[GetIdToken] test get response suceed");
+
+        var testData = new
+        {
+            title = "Testowy Post",
+            body = "To jest treœæ wys³ana z mojej aplikacji",
+            userId = 1
+        };
+
+        string json = Newtonsoft.Json.JsonConvert.SerializeObject(testData);
+        var content1 = new StringContent(json, Encoding.UTF8, "application/json");
+
+        string TestUrl = "https://jsonplaceholder.typicode.com/posts";
+        Log("[GetIdToken] test post response try");
+        HttpResponseMessage testresponsepost = await httpClient.PostAsync(TestUrl, content1);
+        Log("[GetIdToken] test post response suceed");
+        var responseContent1 = await testresponsepost.Content.ReadAsStringAsync();
+        Log("[GetIdToken] test post response content:" + responseContent1);
+
+
+        //string s = await GetClosedForLast7Days(consoleLog);
         // SendEmail(s, log);
         // s = await GetClosedForThisWeek(log);
         // SendEmail(s, log);
