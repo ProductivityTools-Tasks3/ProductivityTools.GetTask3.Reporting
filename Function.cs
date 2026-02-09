@@ -26,37 +26,9 @@ public class Function : IHttpFunction
 
     public async Task HandleAsync(HttpContext context)
     {
-        //in Launch settings this env variable is set
-        // Environment.SetEnvironmentVariable("GOOGLE_APPLICATION_CREDENTIALS", @"D:\GitHub\Home.Configuration\ptprojectsweb-firebase-adminsdk.json");
-        
-        //x Environment.SetEnvironmentVariable("DOTNET_NetworkChange_UNSUPPORTED", "true");
         Action<string> consoleLog = (s) => Console.WriteLine(s);
         var Log = consoleLog;
         consoleLog("===== Function started =====");
-        
-        //x
-        //using var handler = new HttpClientHandler();
-        //using var httpClient = new HttpClient(handler);
-        //HttpResponseMessage testresponse = await httpClient.GetAsync("http://www.wp.pl");
-        //Log("[GetIdToken] test get response suceed");
-
-        //var testData = new
-        //{
-        //    title = "Testowy Post",
-        //    body = "To jest treœæ wys³ana z mojej aplikacji",
-        //    userId = 1
-        //};
-
-        //string json = Newtonsoft.Json.JsonConvert.SerializeObject(testData);
-        //var content1 = new StringContent(json, Encoding.UTF8, "application/json");
-
-        //string TestUrl = "https://jsonplaceholder.typicode.com/posts";
-        //Log("[GetIdToken] test post response try");
-        //HttpResponseMessage testresponsepost = await httpClient.PostAsync(TestUrl, content1);
-        //Log("[GetIdToken] test post response suceed");
-        //var responseContent1 = await testresponsepost.Content.ReadAsStringAsync();
-        //Log("[GetIdToken] test post response content:" + responseContent1);
-        //x
 
         string s = await GetClosedForLast7Days(consoleLog);
         // SendEmail(s, log);

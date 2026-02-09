@@ -1,6 +1,6 @@
 <!--Category:C#--> 
- <p align="right">
-    <a href="http://productivitytools.tech/"><img src="Images/Header/ProductivityTools_green_40px_2.png" /><a> 
+<p align="right">
+    <a href="http://productivitytools.tech/"><img src="Images/Header/ProductivityTools_green_40px_2.png" /><a>
     <a href="https://github.com/ProductivityTools-Tasks3/ProductivityTools.GetTask3.Contract"><img src="Images/Header/Github_border_40px.png" /></a>
 </p>
 <p align="center">
@@ -9,32 +9,60 @@
     </a>
 </p>
 
-# GetTask3.Reporting
+# ProductivityTools.GetTask3.Reporting
 
-Azure function which sends report about finished tasks
+Cloud function designed to generate and send markdown reports about finished tasks from the GetTask3 system.
 
 <!--more-->
 
-Some details
+## Overview
 
-- Function sends report in the MD format every couple hours.
-- It uses GetTask3.Sdk nuget packet
+**ProductivityTools.GetTask3.Reporting** is a serverless function (built using Google Cloud Functions Framework) that automates the process of tracking productivity. It fetches completed tasks and compiles them into a Markdown-formatted report, which is then emailed to the user.
 
+### Key Features
 
-## Sent Email
-- To sent email ProductivityTools.SentEmailGmail is used
-- Password to Gmail is stored in the MasterConfiguration so in the file when debugging locally. When running in azure password is taken from environment variable
+- **Automated Reporting**: Runs periodically (e.g., every couple of hours) to generate up-to-date reports.
+- **Markdown Reports**: Delivers reports in a clean, readable Markdown format.
+- **Integration**:
+  - Uses `ProductivityTools.GetTask3.Sdk` to communicate with the Task API.
+  - specific email sending capability via `ProductivityTools.SentEmailGmail`.
+- **Security**:
+  - **API Authentication**: Protected via OAuth and Firebase Authentication.
+  - **Secret Management**: Sensitive data like passwords and API keys are managed via `ProductivityTools.MasterConfiguration`.
 
-## Api Authentication
-- Api is protected with the OAuth and Firebase is used as authentication backend
-- To perform authentication we need to provide **FirebaseWebApiKey** it is also stored in Master configuration and environment variable
+## Configuration & Authentication
 
-##  Operation not supported
-This specific error—NetworkInformationException (95): Operation not supported—is a known issue when running .NET on hardened or serverless Linux environments like Google Cloud Run or Cloud Functions.
+To function correctly, the application requires several configuration secrets. These are handled by `ProductivityTools.MasterConfiguration`, which retrieves values from a local file during development or Environment Variables in production.
 
-The issue occurs because the .NET HttpClient tries to monitor network interface changes (to refresh connection pools) using low-level sockets that are restricted in the Cloud Run sandbox.
-To resolve it we can add env variables or add code to the function:
+### Required Secrets
+
+1.  **Gmail Password**: Used to authenticate with the Gmail SMTP server for sending reports.
+2.  **FirebaseWebApiKey**: Required to authenticate with the GetTask3 API.
+
+> Note when running in Azure or Google Cloud, these values are populated from the environment variables.
+
+## Deployment & Development
+
+### Google Cloud Functions Setup
+
+The project is configured for Google Cloud Functions. You can initialize and add dependencies using:
+
+```bash
+dotnet new gcf-http
+dotnet add package ProductivityTools.GetTask3.Sdk
+dotnet add package ProductivityTools.MasterConfiguration
 ```
+
+### Known Issues & Troubleshooting
+
+#### "Operation not supported" (NetworkInformationException)
+
+A known issue exists when running .NET on hardened serverless Linux environments (like Google Cloud Run or Cloud Functions). The error `NetworkInformationException (95): Operation not supported` occurs because `.NET HttpClient` attempts to monitor network interface changes using low-level sockets restricted in the sandbox.
+
+**Fix**:
+The application includes a static constructor in the `Function` class to disable this behavior:
+
+```csharp
 static Function()
 {
     Environment.SetEnvironmentVariable("DOTNET_NetworkChange_UNSUPPORTED", "true");
@@ -42,15 +70,8 @@ static Function()
 }
 ```
 
-### Google Functions
-
-```
-dotnet new gcf-http
-dotnet add package ProductivityTools.GetTask3.Sdk
-dotnet add package ProductivityTools.MasterConfiguration
-```
-
 ## Secret Manager
 
+Configuration for secrets in the cloud environment:
 
 ![](2026-01-21-21-06-19.png)
