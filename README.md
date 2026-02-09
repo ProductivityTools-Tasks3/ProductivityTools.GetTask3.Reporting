@@ -29,6 +29,18 @@ Some details
 - Api is protected with the OAuth and Firebase is used as authentication backend
 - To perform authentication we need to provide **FirebaseWebApiKey** it is also stored in Master configuration and environment variable
 
+##  Operation not supported
+This specific error—NetworkInformationException (95): Operation not supported—is a known issue when running .NET on hardened or serverless Linux environments like Google Cloud Run or Cloud Functions.
+
+The issue occurs because the .NET HttpClient tries to monitor network interface changes (to refresh connection pools) using low-level sockets that are restricted in the Cloud Run sandbox.
+To resolve it we can add env variables or add code to the function:
+```
+static Function()
+{
+    Environment.SetEnvironmentVariable("DOTNET_NetworkChange_UNSUPPORTED", "true");
+    Environment.SetEnvironmentVariable("DOTNET_SYSTEM_NET_HTTP_SOCKETSHTTPHANDLER_HTTP2SUPPORT", "false");
+}
+```
 
 ### Google Functions
 
