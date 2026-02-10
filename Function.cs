@@ -30,14 +30,17 @@ public class Function : IHttpFunction
         var Log = consoleLog;
         consoleLog("===== Function started =====");
 
-        string s = await GetClosedForLast7Days(consoleLog);
+        //string s = await GetClosedForLast7Days(consoleLog);
         // SendEmail(s, log);
-        // s = await GetClosedForThisWeek(log);
+         string s = await GetClosedForThisWeek(consoleLog);
         // SendEmail(s, log);
         // return new OkObjectResult("Report sent");
 
-
-        await context.Response.WriteAsync("Hello, Functions Framework." + s + "pawel", context.RequestAborted);
+        var result = "Hello, The report:" + Environment.NewLine;
+        result += s;
+        result += Environment.NewLine;
+        result += "The end!";
+        await context.Response.WriteAsync(s, context.RequestAborted);
     }
 
     private static IConfigurationRoot Configuration
@@ -155,12 +158,14 @@ public class Function : IHttpFunction
         log(FirebaseWebApiKey);
 
 
-        var inbox = await FindElements(rootElement, new List<string> { "PawelPC", "Google" });
+        var inbox = await FindElements(rootElement, new List<string> { "PawelPC", "NetSys" });
         string result = string.Empty;
         foreach (var i in inbox)
         {
             result += await GetPathToRoot(rootElement, i);
+            result += Environment.NewLine;
             //result += ReportMd.PrepareReport(i);
+            result += ReportSimple.PrepareReport(i);
         }
         return result;
     }
