@@ -15,8 +15,8 @@ public class Function : IHttpFunction
 {
 
     static string URL = "https://tasks-api.productivitytools.top/api/";// Consts.EndpointAddress;
-    //static string URL = "http://localhost:5513/api/";// Consts.EndpointAddress;
-    
+                                                                       //static string URL = "http://localhost:5513/api/";// Consts.EndpointAddress;
+
     //this is required to perform post operation from the cloud run environment
     static Function()
     {
@@ -32,15 +32,15 @@ public class Function : IHttpFunction
 
         //string s = await GetClosedForLast7Days(consoleLog);
         // SendEmail(s, log);
-         string s = await GetClosedForThisWeek(consoleLog);
-        // SendEmail(s, log);
-        // return new OkObjectResult("Report sent");
+        string s = await GetClosedForThisWeek(consoleLog);
+        SendEmail(s, consoleLog);
 
         var result = "Hello, The report:" + Environment.NewLine;
         result += s;
         result += Environment.NewLine;
         result += "The end!";
-        await context.Response.WriteAsync(s, context.RequestAborted);
+        //await context.Response.WriteAsync(s, context.RequestAborted);
+        await context.Response.WriteAsync("Report sent!", context.RequestAborted);
     }
 
     private static IConfigurationRoot Configuration
@@ -175,7 +175,7 @@ public class Function : IHttpFunction
         string password = Configuration["GmailPassword"];
         log("gmail pass");
         log(password);
-        //SendEmailGmail.Gmail.Send("productivitytools.tech@gmail.com", password, "pwujczyk@gmail.com", "GetTask3", body);
+        SendEmailGmail.Gmail.Send("productivitytools.tech@gmail.com", password, "pwujczyk@gmail.com", "GetTask3", body);
     }
 
 }
