@@ -41,6 +41,8 @@ To function correctly, the application requires several configuration secrets. T
 
 > Note when running in Azure or Google Cloud, these values are populated from the environment variables.
 
+![alt text](Images\Secrets.png)
+
 ## Deployment & Development
 
 ### Google Cloud Functions Setup
