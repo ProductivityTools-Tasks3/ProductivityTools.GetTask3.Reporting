@@ -22,6 +22,8 @@ public class Function : IHttpFunction
     {
         Environment.SetEnvironmentVariable("DOTNET_NetworkChange_UNSUPPORTED", "true");
         Environment.SetEnvironmentVariable("DOTNET_SYSTEM_NET_HTTP_SOCKETSHTTPHANDLER_HTTP2SUPPORT", "false");
+        Environment.SetEnvironmentVariable("ASPNETCORE_ENVIRONMENT", "MasterConfiguration");//force master configuration
+        
     }
 
     public async Task HandleAsync(HttpContext context)
