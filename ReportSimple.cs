@@ -18,7 +18,7 @@ namespace ProductivityTools.GetTask3.Reporting
         {
             if (element.Finished.HasValue && element.Finished.Value > DateTime.Now.AddDays(-1))
             {
-                return string.Concat(path, "\\", element.Name) + Environment.NewLine;
+                return string.Concat(path, "\\", element.Name) + "<br/>";
             }
             var r = string.Empty;
             foreach (var item in element.Elements)
