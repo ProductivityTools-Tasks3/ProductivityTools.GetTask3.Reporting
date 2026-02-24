@@ -1,16 +1,20 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <OutputType>Exe</OutputType>
     <TargetFramework>net8.0</TargetFramework>
-    
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <PackageId>ProductivityTools.GetTask3.Reporting</PackageId>
+    <Version>0.0.2</Version>
+    <Authors>Pawel Wujczyk</Authors>
+    <Company>ProductivityTools</Company>
+    <Description>Generate report for the get task application</Description>
+    <PackageTags>report;gettask;productivitytools.top</PackageTags>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <RepositoryUrl>[https://github.com/ProductivityTools-Tasks3/ProductivityTools.GetTask3.Reporting](https://github.com/ProductivityTools-Tasks3/ProductivityTools.GetTask3.Reporting)</RepositoryUrl>
   </PropertyGroup>
-
   <ItemGroup>
-    <PackageReference Include="Google.Cloud.Functions.Hosting" Version="3.0.1" />
-    <None Include="appsettings*.json" CopyToOutputDirectory="PreserveNewest" />
-    <PackageReference Include="Microsoft.Extensions.Configuration" Version="10.0.2" />
+    <PackageReference Include="ProductivityTools.GetTask3.Contract" Version="0.0.25" />
     <PackageReference Include="ProductivityTools.GetTask3.Sdk" Version="0.0.48" />
-    <PackageReference Include="ProductivityTools.MasterConfiguration" Version="2.0.5" />
     <PackageReference Include="ProductivityTools.SendEmailGmail" Version="0.0.18" />
   </ItemGroup>
 </Project>
